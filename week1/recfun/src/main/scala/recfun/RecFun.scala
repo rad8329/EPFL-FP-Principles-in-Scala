@@ -36,38 +36,26 @@ object RecFun extends RecFunInterface {
       import scala.collection.mutable
 
       private val stack: mutable.Stack[Char] = mutable.Stack()
-      private var counter: Int = 0
 
-      def open: Int = {
-        counter += 1
-
-        stack.push('(')
-
-        counter
+      def matches(term: Term): Int = {
+        if (term.isOpen) {
+          stack.push('(')
+          1
+        }
+        else if (term.isClose) {
+          if (stack.nonEmpty) stack.pop
+          -1
+        }
+        else 0
       }
 
-      def close: Int = {
-        counter -= 1
-
-        if (stack.nonEmpty) stack.pop
-
-        counter
-      }
-
-      def isBalanced: Boolean = counter == 0 && stack.isEmpty
+      def isBalanced(counter: Int): Boolean = counter == 0 && stack.isEmpty
     }
 
     @scala.annotation.tailrec
-    def loop(chars: List[Char]): Boolean = {
-      if (chars.isEmpty) Parentheses.isBalanced
-      else {
-        val term: Term = Term(chars.head)
-
-        if (term.isOpen) Parentheses.open
-        else if (term.isClose) Parentheses.close
-
-        loop(chars.tail)
-      }
+    def loop(chars: List[Char], counter: Int = 0): Boolean = {
+      if (chars.isEmpty) Parentheses.isBalanced(counter)
+      else loop(chars.tail, counter + Parentheses.matches(Term(chars.head)))
     }
 
     loop(chars)
@@ -80,7 +68,7 @@ object RecFun extends RecFunInterface {
 
     money match {
       case 0 => 1
-      case x if x < 0 || (x >= 1 && coins.isEmpty) => 0
+      case money if money < 0 || (money >= 1 && coins.isEmpty) => 0
       case _ => countChange(money, coins.tail) + countChange(money - coins.head, coins)
     }
   }
