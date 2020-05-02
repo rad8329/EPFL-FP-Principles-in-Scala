@@ -49,13 +49,13 @@ object RecFun extends RecFunInterface {
         else 0
       }
 
-      def isBalanced(counter: Int): Boolean = counter == 0 && stack.isEmpty
+      def isBalanced: Boolean = stack.isEmpty
     }
 
     @scala.annotation.tailrec
-    def loop(chars: List[Char], counter: Int = 0): Boolean = {
-      if (chars.isEmpty) Parentheses.isBalanced(counter)
-      else loop(chars.tail, counter + Parentheses.matches(Term(chars.head)))
+    def loop(chars: List[Char], numericBalancer: Int = 0): Boolean = {
+      if (chars.isEmpty) numericBalancer == 0 && Parentheses.isBalanced
+      else loop(chars.tail, numericBalancer + Parentheses.matches(Term(chars.head)))
     }
 
     loop(chars)
