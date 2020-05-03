@@ -1,5 +1,7 @@
 package recfun
 
+import scala.collection.mutable
+
 object RecFun extends RecFunInterface {
 
   def main(args: Array[String]): Unit = {
@@ -25,37 +27,22 @@ object RecFun extends RecFunInterface {
    */
   def balance(chars: List[Char]): Boolean = {
 
-    case class Term(char: Char) {
-      def isOpen: Boolean = char == '('
-
-      def isClose: Boolean = char == ')'
-    }
-
-    object Parentheses {
-
-      import scala.collection.mutable
-
-      private val stack: mutable.Stack[Char] = mutable.Stack()
-
-      def matches(term: Term): Int = {
-        if (term.isOpen) {
-          stack.push('(')
-          1
-        }
-        else if (term.isClose) {
-          if (stack.nonEmpty) stack.pop
-          -1
-        }
-        else 0
-      }
-
-      def isBalanced: Boolean = stack.isEmpty
-    }
-
     @scala.annotation.tailrec
-    def loop(chars: List[Char], numericBalancer: Int = 0): Boolean = {
-      if (chars.isEmpty) numericBalancer == 0 && Parentheses.isBalanced
-      else loop(chars.tail, numericBalancer + Parentheses.matches(Term(chars.head)))
+    def loop(chars: List[Char], stack: mutable.Stack[Char] = mutable.Stack()): Boolean = {
+      if (chars.isEmpty) stack.isEmpty
+      else {
+        val head = chars.head
+
+        if ('(' == head) loop(chars.tail, stack.push('('))
+        else if (')' == head) {
+          if (stack.nonEmpty) {
+            stack.pop
+
+            loop(chars.tail, stack)
+          } else false
+        }
+        else loop(chars.tail, stack)
+      }
     }
 
     loop(chars)
@@ -65,11 +52,8 @@ object RecFun extends RecFunInterface {
    * Exercise 3
    */
   def countChange(money: Int, coins: List[Int]): Int = {
-
-    money match {
-      case 0 => 1
-      case money if money < 0 || (money >= 1 && coins.isEmpty) => 0
-      case _ => countChange(money, coins.tail) + countChange(money - coins.head, coins)
-    }
+    if (money == 0) 1
+    else if (money < 0 || (money >= 1 && coins.isEmpty)) 0
+    else countChange(money, coins.tail) + countChange(money - coins.head, coins)
   }
 }
