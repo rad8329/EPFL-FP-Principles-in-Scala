@@ -1,5 +1,13 @@
 package week4
 
-class InSet {
+trait IntSet {
+
+}
+
+case class NonEmpty() extends IntSet {
+
+}
+
+case class Empty() extends IntSet {
 
 }
