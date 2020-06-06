@@ -5,3 +5,9 @@ project/target
 src/target
 .idea
 .cue
+Sera borrado .gitignore
+Sera borrado .scalafix.conf
+Sera borrado assignment.sbt
+Sera borrado build.sbt
+Sera borrado project/
+Sera borrado src/
