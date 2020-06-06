@@ -23,7 +23,7 @@ object Nil extends List[Nothing] {
   override def tail: Nothing = throw new NoSuchElementException("Nil.tail")
 }
 
-object test extends App {
+object listTest extends App {
   val x: List[String] = Nil // Is correct because Nil is a list of nothing, and nothing is a subtype o string
 
   def f(xs: List[NonEmpty], x: Empty): List[IntSet] = xs prepended x
