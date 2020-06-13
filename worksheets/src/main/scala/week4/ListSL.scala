@@ -35,7 +35,7 @@ object ListSL extends App {
   //val nums: List[Int] = List(1, 2, 3, 4)
   val nums: List[Int] = 1 :: 2 :: 3 :: 4 :: Nil // can omit the parentheses
 
-  val diag3: List[List[Int]] = List(List(1, 2, 3), List(4, 5, 6), List(7, 8, 9))
+  val diag3: List[List[Int]] = List(List(1, 0, 0), List(0, 1, 0), List(0, 0, 1))
 
   val single: List[String] = List("Hola")
 
