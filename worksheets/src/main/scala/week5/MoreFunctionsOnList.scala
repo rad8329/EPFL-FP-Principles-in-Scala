@@ -1,6 +1,8 @@
 package week5
 
 object MoreFunctionsOnList extends App {
+  // An a List is linear data structure
+  // The fundamental operation is "head" and "tail"
   @scala.annotation.tailrec
   def last[T](xs: List[T]): T = xs match {
     case Nil => throw new Error("Last of empty list")
